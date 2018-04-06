@@ -64,4 +64,16 @@
 	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:jsonObj];
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:[command callbackId]];
 }
+
+- (void) myPluginMethod:(CDVInvokedUrlCommand*)command
+{
+    // Check command.arguments here.
+    [self.commandDelegate runInBackground:^{
+        NSString* payload = nil;
+        // Some blocking logic...
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:payload];
+        // The sendPluginResult method is thread-safe.
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
 @end
